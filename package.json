@@ -1,0 +1,15 @@
+{
+  "name": "fireworks_simulator_v2",
+  "version": "1.0.0",
+  "description": "3D fireworks simulator",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "three": "^0.161.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
