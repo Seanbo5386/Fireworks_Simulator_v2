@@ -18,7 +18,7 @@ const camera = new THREE.PerspectiveCamera(
 scene.add(camera);
 camera.position.set(0, 0, 5);
 
-const world = new World({ scene, camera, renderer });
+const world = new World({ scene, camera, canvas });
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -30,10 +30,13 @@ window.addEventListener('resize', () => {
   }
 });
 
+const clock = new THREE.Clock();
+
 function tick() {
   requestAnimationFrame(tick);
+  const delta = clock.getDelta();
   if (typeof world.update === 'function') {
-    world.update();
+    world.update(delta);
   }
   renderer.render(scene, camera);
 }
