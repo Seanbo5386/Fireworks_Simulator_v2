@@ -8,6 +8,9 @@ export default class ParticleSystem {
   constructor(scene) {
     this.scene = scene;
     this.particles = [];
+    // Preload the particle texture located in the public folder
+    const loader = new THREE.TextureLoader();
+    this.texture = loader.load('/textures/smoke.png');
   }
 
   /**
@@ -18,10 +21,16 @@ export default class ParticleSystem {
    */
   spawn(position, color, count = 30) {
     for (let i = 0; i < count; i++) {
-      const geometry = new THREE.SphereGeometry(0.02, 4, 4);
-      const material = new THREE.MeshBasicMaterial({ color });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.copy(position);
+      const material = new THREE.SpriteMaterial({
+        map: this.texture,
+        color,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        depthWrite: false,
+      });
+      const sprite = new THREE.Sprite(material);
+      sprite.position.copy(position);
+      sprite.scale.setScalar(0.2);
 
       const velocity = new THREE.Vector3(
         (Math.random() - 0.5) * 6,
@@ -29,8 +38,8 @@ export default class ParticleSystem {
         (Math.random() - 0.5) * 6
       );
 
-      this.scene.add(mesh);
-      this.particles.push({ mesh, velocity, life: 2 });
+      this.scene.add(sprite);
+      this.particles.push({ mesh: sprite, velocity, life: 2 });
     }
   }
 
