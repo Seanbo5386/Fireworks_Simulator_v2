@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import World from './World.js';
+import PostProcessing from '../experience/PostProcessing.js';
 
 const canvas = document.querySelector('canvas.webgl');
 
@@ -19,12 +20,14 @@ scene.add(camera);
 camera.position.set(0, 0, 5);
 
 const world = new World({ scene, camera, renderer });
+const post = new PostProcessing(renderer, scene, camera);
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  post.setSize(window.innerWidth, window.innerHeight);
   if (typeof world.onResize === 'function') {
     world.onResize();
   }
@@ -35,7 +38,7 @@ function tick() {
   if (typeof world.update === 'function') {
     world.update();
   }
-  renderer.render(scene, camera);
+  post.render();
 }
 
 tick();
