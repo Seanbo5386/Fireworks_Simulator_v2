@@ -33,10 +33,13 @@ window.addEventListener('resize', () => {
   }
 });
 
+const clock = new THREE.Clock();
+
 function tick() {
   requestAnimationFrame(tick);
+  const delta = clock.getDelta();
   if (typeof world.update === 'function') {
-    world.update();
+    world.update(delta);
   }
   post.render();
 }
